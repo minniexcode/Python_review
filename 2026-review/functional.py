@@ -1,5 +1,5 @@
 # Functional Programming
-from functools import reduce as reduceFunc
+from functools import reduce as reduceFunc, wraps, partial
 
 def my_add_function(x, y, addFunc):
     '''Returns the sum of the results of applying addFunc to x and y.'''
@@ -68,3 +68,46 @@ def by_score(t):
 print('sorted by name:', sorted(student_l, key=by_name))
 print('sorted by score:', sorted(student_l, key=by_score, reverse=True))
 
+# 匿名函数 lamada
+
+ll1 = list(map(lambda x: x**2, range(10)))
+print('ll1:', ll1)
+
+# Decorator 
+
+# 在面向对象（OOP）的设计模式中，decorator被称为装饰模式。
+# OOP的装饰模式需要通过继承和组合来实现，而Python除了能支持OOP的decorator外，直接从语法层次支持decorator。
+# Python的decorator可以用函数实现，也可以用类实现。
+
+def log(prefix):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kw):
+            print('%s %s():' % (prefix, func.__name__))
+            return func(*args, **kw)
+        return wrapper
+    return decorator
+
+@log('DEBUG')
+def now():
+    '''Returns the current date and time.'''
+    print('2024-6-1')
+
+print(now.__name__)
+print(now.__doc__)
+now()
+
+# 偏函数 partial function
+
+int2 = partial(int, base=2)
+int8 = partial(int, base=8)
+int16 = partial(int, base=16)
+
+print('int2 ',int2('1000000'))
+print('int8 ',int8('1000000'))
+print('int16 ',int16('1000000'))
+
+from module import ABC
+
+abc = ABC('Codex')
+abc.say_hello()
